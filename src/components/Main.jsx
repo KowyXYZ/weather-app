@@ -1,6 +1,6 @@
 import React, {useEffect, useState, Suspense} from 'react'
 
-import {clear, search} from '../assets'
+import {clear, cloud, drizzle, humidity, rain, snow, wind, search} from '../assets'
 
 import searchRenderData from '../utils/searchRenderData'
 
@@ -15,14 +15,34 @@ function Main() {
 
     const [renderedData, setRenderedData] = useState([])
 
-    const [sky, setSky] = useState('')
-    
-    const tempPic = document.querySelector('#temp_pic')
+    function getImageSource(renderedData){
+            if(renderedData?.weather?.icon === '01d') {
+                return clear
+            } else if (renderedData?.weather?.icon === '02d') {
+                return cloud
+            } else if (renderedData?.weather?.icon === '03d') {
+                return cloud
+            } else if (renderedData?.weather?.icon === '04d') {
+                return cloud
+            } else if (renderedData?.weather?.icon === '09d') {
+                return rain
+            } else if (renderedData?.weather?.icon === '10d') {
+                return rain
+            } else if (renderedData?.weather?.icon === '11d') {
+                return rain
+            } else if (renderedData?.weather?.icon === '13d') {
+                return snow
+            } else if (renderedData?.weather?.icon === '50d') {
+                return drizzle
+            } else {
+                return clear
+            }
+    }
 
     const handleSearch = async () => {
-        setCity(textBox)
-        console.log(textBox)
-        searchRenderData(city).then((data) => setRenderedData(data))
+
+        searchRenderData(textBox).then((data) => setRenderedData(data))
+        console.log(renderedData)
     }
 
 
@@ -30,9 +50,6 @@ function Main() {
       searchRenderData(city).then((data) => setRenderedData(data))
 
     }, [])
-
-    
-
 
   return (
     <Suspense fallback={<Loader/>}>
@@ -45,12 +62,12 @@ function Main() {
             <p className='mt-4'>{renderedData?.sys?.country}: {renderedData.name}</p>
 
 
-            <img id='temp_pic' className='w-24 h-24 object-contain' src={clear} alt="current_weather_image" />
+            <img id='temp' className='w-24 h-24 object-contain' src={getImageSource(renderedData)} alt="current_weather_image" />
 
 
 
             <p>{renderedData?.weather?.main}</p>
-            <p className='text-[18px]'>{renderedData?.main?.temp}°C</p>
+            <p className='text-[18px]'>{Math.round(renderedData?.main?.temp - 273.15)}°C</p>
             <p className='text-[14px]'>{renderedData?.weather?.description}</p>
             <div className='flex gap-4 flex-col mt-4'>
                 <p>Min. Temp: {renderedData?.main?.temp_min}°C</p>
