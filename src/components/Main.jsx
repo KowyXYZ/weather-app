@@ -5,7 +5,7 @@ import {clear, search} from '../assets'
 function Main() {
 
     const api_key = '09ba38ec514648227327c104a399bb60'
-    const [city, setCity] = useState('London')
+    const [city, setCity] = useState('')
 
 
     const [data, setData] = useState([])
@@ -31,10 +31,10 @@ function Main() {
              <input className='p-1 outline-none' onChange={(e) => setCity(e.target.value)} type="text" id="inpBox" />
              <img onClick={() => handleSearch()} src={search} className='w-5 h-5 object-contain' alt="search" />
             </div>
-            <p className='mt-4'>{weather.name}</p>
+            <p className='mt-4'>{weather?.name}</p>
             <img className='w-24 h-24 object-contain' src={clear} alt="" />
             <p>Clear</p>
-            <p className='text-[18px]'>{weather.main.temp}</p>
+            <p className='text-[18px]'>X</p>
             <p className='text-[14px]'>Clear sky</p>
             <div className='flex gap-4'>
                 <p>Min. Temp: 20</p>
